@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+</head>
+<body>
+
+<h1>Administrator Dashboard</h1>
+
+<nav>
+    <a href="#">Manage Users</a> |
+    <a href="#">Manage Items</a> |
+    <a href="#">Recommendation Settings</a> |
+    <a href="#">Reports</a> |
+    <a href="#">Logout</a>
+</nav>
+
+<hr>
+
+<h2>Manage Users</h2>
+<ul>
+    <li>User 1 - Active <button>Deactivate</button></li>
+    <li>User 2 - Suspended <button>Activate</button></li>
+</ul>
+
+<hr>
+
+<h2>Item Monitoring</h2>
+<ul>
+    <li>Item A - Active</li>
+    <li>Item B - Sold</li>
+    <li>Item C - Expired</li>
+</ul>
+
+</body>
+</html>

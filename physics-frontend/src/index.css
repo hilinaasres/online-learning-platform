@@ -1,0 +1,92 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@600;700&family=Space+Grotesk:wght@400;500;700&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  font-family: "Space Grotesk", sans-serif;
+  color: #13314a;
+}
+
+body {
+  min-height: 100vh;
+  color: #13314a;
+  background:
+    radial-gradient(circle at 14% 15%, rgba(255, 194, 102, 0.4), transparent 36%),
+    radial-gradient(circle at 86% 12%, rgba(72, 179, 205, 0.4), transparent 32%),
+    linear-gradient(135deg, #f9fcff 0%, #edf5fc 45%, #eef8fb 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+input,
+select,
+button,
+textarea {
+  font: inherit;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid #b8cad9;
+  border-radius: 12px;
+  background: #fff;
+  color: #17344c;
+  padding: 12px 14px;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+input:focus,
+select:focus {
+  border-color: #1e87ae;
+  box-shadow: 0 0 0 3px rgba(30, 135, 174, 0.18);
+}
+
+button {
+  border: 0;
+  border-radius: 12px;
+  padding: 12px 14px;
+  cursor: pointer;
+  background: linear-gradient(120deg, #0f6b8f, #14a0c1);
+  color: #fff;
+  font-weight: 700;
+  transition: transform 140ms ease, filter 160ms ease;
+}
+
+button:hover {
+  filter: brightness(1.03);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+  transform: none;
+}
+
+.dashboard-container {
+  max-width: 900px;
+  margin: 50px auto;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 30px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.dashboard-section {
+  margin-top: 20px;
+}
