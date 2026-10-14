@@ -1,8 +1,8 @@
-\# Physics Learning Website
+\# Online Learning Platform
 
 
 
-A full-stack web application designed to provide an interactive platform for learning physics.
+A full-stack web application designed to provide an interactive platform for learning.
 
 
 
@@ -10,7 +10,7 @@ A full-stack web application designed to provide an interactive platform for lea
 
 
 
-\- Interactive physics learning content
+\- Interactive learning content
 
 \- Modern web interface
 
@@ -26,7 +26,7 @@ A full-stack web application designed to provide an interactive platform for lea
 
 \- Backend API
 
-\- Physics-related educational resources
+\- learing-related educational resources
 
 
 
@@ -62,7 +62,7 @@ A full-stack web application designed to provide an interactive platform for lea
 
 ```text
 
-physics-website/
+Online Learning Platform/
 
 │
 
@@ -70,7 +70,7 @@ physics-website/
 
 │
 
-├── physics-frontend/
+├─Online Learning Platform frontend/
 
 │   ├── public/
 
@@ -82,7 +82,7 @@ physics-website/
 
 │
 
-├── physics-backend/
+├── Online Learning Platform-backend/
 
 │   ├── models/
 
