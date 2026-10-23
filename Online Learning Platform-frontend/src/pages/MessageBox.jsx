@@ -33,7 +33,7 @@ export default function MessageBox({ user }) {
       return;
     }
     try {
-      await api("/message", { method: "POST", body: { from: user._id, to, text } });
+      await api("/message", { method: "POST", body: { to, text } });
       setText("");
       setTo("");
       setError("");

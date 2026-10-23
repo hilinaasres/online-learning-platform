@@ -123,7 +123,7 @@ export default function InstructorDashboard({ user, onLogout }) {
     if (!title || !description || !fileUrl) return;
     await api("/notes", {
       method: "POST",
-      body: { title, description, fileUrl, instructorId: user._id },
+      body: { title, description, fileUrl },
     });
     setTitle("");
     setDescription("");
@@ -144,7 +144,7 @@ export default function InstructorDashboard({ user, onLogout }) {
 
     await api("/quiz", {
       method: "POST",
-      body: { title: quizTitle, questions: validQuestions, instructorId: user._id },
+      body: { title: quizTitle, questions: validQuestions },
     });
 
     setQuizTitle("");
@@ -158,7 +158,6 @@ export default function InstructorDashboard({ user, onLogout }) {
     await api("/message", {
       method: "POST",
       body: {
-        from: user._id,
         to: selectedStudentId,
         text: messageText.trim(),
       },
@@ -193,7 +192,6 @@ export default function InstructorDashboard({ user, onLogout }) {
       title,
       score,
       maxScore,
-      instructorId: user._id,
     };
 
     try {

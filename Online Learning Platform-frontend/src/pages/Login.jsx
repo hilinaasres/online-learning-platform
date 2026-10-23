@@ -21,7 +21,7 @@ export default function Login({ setUser, setShowRegister }) {
         body: { email, password },
       });
       setMsg(data.message);
-      if (data.user) setUser(data.user);
+      if (data.user && data.token) setUser(data.user, data.token);
     } catch (err) {
       setMsg(err.message || "Server error");
     } finally {

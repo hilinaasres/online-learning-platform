@@ -118,23 +118,15 @@ export default function StudentDashboard({ user, onLogout }) {
   const submitQuiz = async () => {
     if (!selectedQuiz) return;
 
-    let score = 0;
-    selectedQuiz.questions.forEach((question, index) => {
-      if (selectedAnswers[index] === question.correctAnswer) {
-        score += 1;
-      }
-    });
-
     try {
-      await api("/answer", {
+      const result = await api("/answer", {
         method: "POST",
         body: {
           quizId: selectedQuiz._id,
-          studentId: user._id,
           answers: selectedQuiz.questions.map((_, index) => selectedAnswers[index] || ""),
         },
       });
-      setResultMessage(`Submitted: ${score}/${selectedQuiz.questions.length} correct.`);
+      setResultMessage(`Submitted: ${result.score}/${selectedQuiz.questions.length} correct.`);
     } catch (err) {
       setResultMessage(err.message || "Could not submit quiz.");
     }
@@ -148,7 +140,6 @@ export default function StudentDashboard({ user, onLogout }) {
       await api("/message", {
         method: "POST",
         body: {
-          from: user._id,
           to: instructor._id,
           text: messageText.trim(),
         },

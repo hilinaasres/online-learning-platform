@@ -50,7 +50,7 @@ export default function MessageList({ user }) {
     try {
       await api("/message", {
         method: "POST",
-        body: { from: user._id, to: toUserId, text: text.trim() },
+        body: { to: toUserId, text: text.trim() },
       });
       setText("");
       setError("");

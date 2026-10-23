@@ -4,8 +4,12 @@ export function notFound(_req, res) {
 
 export function errorHandler(err, _req, res, _next) {
   console.error(err);
+  if (err.code === 11000) {
+    return res.status(409).json({ message: "An account with this email already exists" });
+  }
   const status = err.status || 500;
-  res.status(status).json({ message: err.message || "Server error" });
+  const message = status < 500 ? err.message : "Server error";
+  res.status(status).json({ message });
 }
 
 export function asyncHandler(fn) {

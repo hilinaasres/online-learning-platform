@@ -1,22 +1,21 @@
 import Note from "../models/Note.js";
 import { asyncHandler } from "../middleware/errorHandler.js";
 
-export const listNotes = asyncHandler(async (_req, res) => {
-  const notes = await Note.find().populate("uploadedBy", "name email").sort({ createdAt: -1 });
+export const listNotes = asyncHandler(async (req, res) => {
+  const filter = req.user.role === "instructor"
+    ? { uploadedBy: req.user._id }
+    : {};
+  const notes = await Note.find(filter).populate("uploadedBy", "name email").sort({ createdAt: -1 });
   res.json(notes);
 });
 
 export const createNote = asyncHandler(async (req, res) => {
-  const { title, description, fileUrl, instructorId, teacherId } = req.body;
-  if (!title) {
-    return res.status(400).json({ message: "Title is required" });
-  }
-
+  const { title, description, fileUrl } = req.body;
   const note = await Note.create({
     title,
     description,
     fileUrl,
-    uploadedBy: instructorId || teacherId,
+    uploadedBy: req.user._id,
   });
 
   res.status(201).json({ message: "Note uploaded", note });

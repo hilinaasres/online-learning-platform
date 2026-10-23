@@ -28,15 +28,11 @@ export default function Register({ setUser, setShowRegister }) {
     try {
       const data = await api("/register", {
         method: "POST",
-        body: { name, email, password, role: "student" },
+        body: { name, email, password },
       });
       setMsg(data.message);
 
-      if (data.user) {
-        setUser(data.user);
-      } else if (data.message === "User registered") {
-        setUser({ name, email, role: "student", _id: data.userId });
-      }
+      if (data.user && data.token) setUser(data.user, data.token);
     } catch (err) {
       setMsg(err.message || "Server error");
     } finally {

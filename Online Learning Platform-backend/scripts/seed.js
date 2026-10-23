@@ -6,6 +6,7 @@ import Quiz from "../models/Quiz.js";
 import Message from "../models/Message.js";
 import Grade from "../models/Grade.js";
 import Answer from "../models/Answer.js";
+import { hashPassword } from "../services/passwordService.js";
 
 const DEMO_PASSWORD = "Password123!";
 
@@ -27,12 +28,13 @@ async function seed() {
   try {
     await mongoose.connect(uri);
     console.log("Connected. Creating or updating demo data...");
+    const demoPasswordHash = await hashPassword(DEMO_PASSWORD);
 
     const users = await Promise.all(
       usersData.map(({ email, ...data }) =>
         User.findOneAndUpdate(
           { email },
-          { $set: { ...data, email, password: DEMO_PASSWORD } },
+          { $set: { ...data, email, password: demoPasswordHash } },
           { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
         )
       )

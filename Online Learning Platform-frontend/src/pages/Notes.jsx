@@ -36,7 +36,7 @@ export default function Notes({ user }) {
     try {
       await api("/notes", {
         method: "POST",
-        body: { title, description, fileUrl, instructorId: user._id },
+        body: { title, description, fileUrl },
       });
       setTitle("");
       setDescription("");

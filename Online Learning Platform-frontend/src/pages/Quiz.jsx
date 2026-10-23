@@ -37,7 +37,7 @@ export default function Quiz({ user }) {
     try {
       await api("/quiz", {
         method: "POST",
-        body: { title, questions, instructorId: user._id },
+        body: { title, questions },
       });
       setTitle("");
       setQuestions([{ question: "", correctAnswer: "" }]);
@@ -54,7 +54,6 @@ export default function Quiz({ user }) {
         method: "POST",
         body: {
           quizId,
-          studentId: user._id,
           answers: (quizzes.find((quiz) => quiz._id === quizId)?.questions || []).map(
             (_, index) => answers[quizId]?.[index] || ""
           ),

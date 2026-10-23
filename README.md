@@ -1,6 +1,6 @@
 # Learnify — Online Learning Platform
 
-Learnify is a full-stack learning platform prototype for students, instructors, and administrators. It currently includes account registration and login, instructor-shared notes, quizzes, messaging, and grade records. Course management, stronger authentication, role restrictions, assessments, notifications, and deployment preparation are planned in later phases.
+Learnify is a full-stack learning platform prototype for students, instructors, and administrators. It currently includes student registration, bcrypt password hashing, JWT authentication, role-protected API access, instructor-shared notes and quizzes, messaging, and grade records. Course management, expanded assessments, notifications, and deployment preparation are planned in later phases.
 
 ## Technology
 
@@ -56,7 +56,13 @@ Set-Location "..\Online Learning Platform-frontend"
 npm install
 ```
 
-Configure `MONGODB_URI` in the backend `.env`, then seed demo accounts and sample content:
+Set `MONGODB_URI` and a strong `JWT_SECRET` in the backend `.env`. Generate a secret with:
+
+```powershell
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+Then seed demo accounts and sample content:
 
 ```powershell
 Set-Location "..\Online Learning Platform-backend"
@@ -102,6 +108,7 @@ Public registration is intended for student accounts.
 | `PORT` | Backend | API port (default: `5001`) |
 | `MONGODB_URI` | Backend | MongoDB connection string |
 | `FRONTEND_URL` | Backend | Frontend origin for CORS (default: `http://localhost:5173`) |
+| `JWT_SECRET` | Backend | Random secret used to sign access tokens (at least 32 characters) |
 | `VITE_API_URL` | Frontend | API base URL (default: `http://localhost:5001`) |
 
 Use the root or app-specific `.env.example` files as templates. Never commit `.env` files or real credentials.
@@ -121,6 +128,10 @@ Use the root or app-specific `.env.example` files as templates. Never commit `.e
 - `npm run preview` — preview the production build locally
 - `npm run lint` — run ESLint
 
-## Current limitations
+## Security notes
 
-This is the first implementation phase, not a production-ready learning management system. Passwords are not yet hashed, login does not yet issue JWTs, and API routes do not yet enforce authentication or role-based access. Do not expose the API or use real user data until Phase 2 is complete. The UI still uses some placeholder dashboard summaries, and the course/module/lesson workflow is planned for Phase 3.
+- Passwords use bcrypt hashes. On API startup, existing plaintext password records are migrated automatically; the seed script also stores demo passwords as hashes.
+- All data endpoints require a valid JWT. Registration creates student accounts only; admin and instructor accounts are provisioned separately.
+- The API restricts browser CORS to `FRONTEND_URL`, validates request bodies, applies Helmet headers, and rate-limits login attempts.
+- Set a unique, randomly generated `JWT_SECRET` before starting the API; the example file leaves it blank.
+- The UI still uses some placeholder dashboard summaries, and the course/module/lesson workflow is planned for Phase 3.
