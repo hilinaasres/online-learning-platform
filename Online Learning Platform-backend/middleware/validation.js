@@ -22,6 +22,13 @@ export const schemas = {
     email: z.email().trim().toLowerCase().max(254),
     password: loginPassword,
   }).strict(),
+  passwordResetRequest: z.object({
+    email: z.email().trim().toLowerCase().max(254),
+  }).strict(),
+  passwordReset: z.object({
+    token: z.string().min(32).max(200),
+    password,
+  }).strict(),
   note: z.object({
     title: z.string().trim().min(1).max(160),
     description: z.string().trim().max(2000).optional(),

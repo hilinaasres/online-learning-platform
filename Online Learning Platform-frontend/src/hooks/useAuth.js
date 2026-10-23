@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const STORAGE_KEY = "olp_auth";
 
@@ -28,5 +28,11 @@ export function useAuth() {
 
   const logout = useCallback(() => setUser(null), [setUser]);
 
-  return { user: auth?.user || null, setUser, logout };
+  useEffect(() => {
+    const handleUnauthorized = () => logout();
+    window.addEventListener("olp:unauthorized", handleUnauthorized);
+    return () => window.removeEventListener("olp:unauthorized", handleUnauthorized);
+  }, [logout]);
+
+  return { user: auth?.user || null, token: auth?.token || "", setUser, logout };
 }

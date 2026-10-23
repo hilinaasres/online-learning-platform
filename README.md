@@ -133,5 +133,7 @@ Use the root or app-specific `.env.example` files as templates. Never commit `.e
 - Passwords use bcrypt hashes. On API startup, existing plaintext password records are migrated automatically; the seed script also stores demo passwords as hashes.
 - All data endpoints require a valid JWT. Registration creates student accounts only; admin and instructor accounts are provisioned separately.
 - The API restricts browser CORS to `FRONTEND_URL`, validates request bodies, applies Helmet headers, and rate-limits login attempts.
+- Password recovery uses `POST /password/forgot` and `POST /password/reset`. Reset tokens are stored as hashes, expire after one hour, and can only be used once. In development, the reset link is printed in the backend console; in production, the response does not expose the link.
+- The frontend routes users to `/admin`, `/instructor`, or `/student` based on their role. Protected routes redirect users with the wrong role to their own dashboard, and invalid or expired sessions return to login.
 - Set a unique, randomly generated `JWT_SECRET` before starting the API; the example file leaves it blank.
 - The UI still uses some placeholder dashboard summaries, and the course/module/lesson workflow is planned for Phase 3.

@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
 
-export default function Register({ setUser, setShowRegister }) {
+export default function Register({ setUser }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onEscape = (event) => {
-      if (event.key === "Escape") setShowRegister(false);
+      if (event.key === "Escape") navigate("/login");
     };
 
     window.addEventListener("keydown", onEscape);
     return () => window.removeEventListener("keydown", onEscape);
-  }, [setShowRegister]);
+  }, [navigate]);
 
   const registerUser = async (event) => {
     event?.preventDefault();
@@ -32,7 +34,10 @@ export default function Register({ setUser, setShowRegister }) {
       });
       setMsg(data.message);
 
-      if (data.user && data.token) setUser(data.user, data.token);
+      if (data.user && data.token) {
+        setUser(data.user, data.token);
+        navigate("/student", { replace: true });
+      }
     } catch (err) {
       setMsg(err.message || "Server error");
     } finally {
@@ -41,7 +46,7 @@ export default function Register({ setUser, setShowRegister }) {
   };
 
   return (
-    <div className="modal-overlay" onClick={() => setShowRegister(false)}>
+    <div className="modal-overlay" onClick={() => navigate("/login")}>
       <section
         className="modal-card"
         aria-label="Register as student"
@@ -50,7 +55,7 @@ export default function Register({ setUser, setShowRegister }) {
         <button
           type="button"
           className="modal-close"
-          onClick={() => setShowRegister(false)}
+          onClick={() => navigate("/login")}
           aria-label="Close registration popup"
         >
           x
@@ -89,10 +94,7 @@ export default function Register({ setUser, setShowRegister }) {
         <p className={`auth-message ${msg === "User registered" ? "ok" : "error"}`}>{msg}</p>
 
         <p className="auth-footer-text">
-          Already have an account?{" "}
-          <button type="button" className="text-link" onClick={() => setShowRegister(false)}>
-            Back to login
-          </button>
+          Already have an account? <Link className="text-link" to="/login">Back to login</Link>
         </p>
       </section>
     </div>

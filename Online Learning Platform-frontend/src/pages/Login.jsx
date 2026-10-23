@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { api } from "../api/client";
+import { isStaffRole } from "../api/client";
 
-export default function Login({ setUser, setShowRegister }) {
+export default function Login({ setUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [msg, setMsg] = useState("");
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [msg, setMsg] = useState(location.state?.message || "");
   const [loading, setLoading] = useState(false);
 
   const loginUser = async (event) => {
@@ -20,8 +24,15 @@ export default function Login({ setUser, setShowRegister }) {
         method: "POST",
         body: { email, password },
       });
-      setMsg(data.message);
-      if (data.user && data.token) setUser(data.user, data.token);
+      if (data.user && data.token) {
+        setUser(data.user, data.token);
+        const destination = data.user.role === "admin"
+          ? "/admin"
+          : isStaffRole(data.user.role)
+            ? "/instructor"
+            : "/student";
+        navigate(destination, { replace: true });
+      }
     } catch (err) {
       setMsg(err.message || "Server error");
     } finally {
@@ -59,10 +70,11 @@ export default function Login({ setUser, setShowRegister }) {
         <p className={`auth-message ${msg === "Login successful" ? "ok" : "error"}`}>{msg}</p>
 
         <p className="auth-footer-text">
-          New student?{" "}
-          <button type="button" className="text-link" onClick={() => setShowRegister(true)}>
-            Create an account
-          </button>
+          <Link className="text-link" to="/forgot-password">Forgot your password?</Link>
+        </p>
+
+        <p className="auth-footer-text">
+          New student? <Link className="text-link" to="/register">Create an account</Link>
         </p>
       </section>
     </main>
